@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# macOS
+.DS_Store
+
+# Data / outputs
+results/raw/*
+results/processed/*
+plots/*
+!results/raw/.gitkeep
+!results/processed/.gitkeep
+!plots/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Hugging Face cache
+.cache/
+hf_cache/
+
+# Jupyter
+.ipynb_checkpoints/

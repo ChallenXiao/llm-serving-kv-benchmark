@@ -1,0 +1,11 @@
+[project]
+name = "llm-serving-kv-benchmark"
+version = "0.1.0"
+description = "Benchmarking vLLM and SGLang serving performance with KV cache scheduling analysis."
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

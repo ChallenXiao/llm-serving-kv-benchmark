@@ -1,0 +1,12 @@
+httpx
+openai
+pandas
+numpy
+matplotlib
+tqdm
+pydantic
+rich
+pytest
+ruff
+fastapi
+uvicorn
