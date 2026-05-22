@@ -41,3 +41,20 @@ This project evaluates LLM serving performance across vLLM and SGLang under diff
 - [ ] Custom benchmark results
 - [ ] KV cache simulator
 - [ ] Final plots and analysis
+
+## Local Benchmark Validation
+
+Before running expensive GPU experiments, I implemented a local OpenAI-compatible mock server to validate the full benchmarking pipeline.
+
+The local pipeline supports:
+
+- streaming response parsing
+- first-token timestamp collection
+- end-to-end latency measurement
+- approximate output token counting
+- concurrency control with asyncio
+- JSONL result export
+- automatic summary CSV generation
+- throughput and latency plotting
+
+This allows the benchmark client to be debugged locally on a MacBook before being reused against real vLLM and SGLang servers on a rented NVIDIA GPU instance.
