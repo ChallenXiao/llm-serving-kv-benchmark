@@ -9,13 +9,14 @@ MAX_RUNNING_REQUESTS=${MAX_RUNNING_REQUESTS:-64}
 MAX_PREFILL_TOKENS=${MAX_PREFILL_TOKENS:-16384}
 RADIX_CACHE=${RADIX_CACHE:-1}
 
-ENGINE_NAME=${ENGINE_NAME:-"sglang_radix_on"}
 CONTAINER_NAME=${CONTAINER_NAME:-"sglang_bench"}
 
-RADIX_FLAG=""
 if [ "$RADIX_CACHE" = "0" ]; then
   RADIX_FLAG="--disable-radix-cache"
   ENGINE_NAME=${ENGINE_NAME:-"sglang_radix_off"}
+else
+  RADIX_FLAG=""
+  ENGINE_NAME=${ENGINE_NAME:-"sglang_radix_on"}
 fi
 
 echo "========== Starting SGLang Experiment =========="

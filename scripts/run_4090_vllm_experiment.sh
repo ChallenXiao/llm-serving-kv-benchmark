@@ -9,13 +9,14 @@ MAX_NUM_SEQS=${MAX_NUM_SEQS:-64}
 MAX_NUM_BATCHED_TOKENS=${MAX_NUM_BATCHED_TOKENS:-16384}
 PREFIX_CACHE=${PREFIX_CACHE:-1}
 
-ENGINE_NAME=${ENGINE_NAME:-"vllm_prefix_on"}
 CONTAINER_NAME=${CONTAINER_NAME:-"vllm_bench"}
 
-PREFIX_FLAG="--enable-prefix-caching"
 if [ "$PREFIX_CACHE" = "0" ]; then
   PREFIX_FLAG="--no-enable-prefix-caching"
   ENGINE_NAME=${ENGINE_NAME:-"vllm_prefix_off"}
+else
+  PREFIX_FLAG="--enable-prefix-caching"
+  ENGINE_NAME=${ENGINE_NAME:-"vllm_prefix_on"}
 fi
 
 echo "========== Starting vLLM Experiment =========="
