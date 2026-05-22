@@ -58,3 +58,14 @@ The local pipeline supports:
 - throughput and latency plotting
 
 This allows the benchmark client to be debugged locally on a MacBook before being reused against real vLLM and SGLang servers on a rented NVIDIA GPU instance.
+
+## KV Cache Allocator Simulation
+
+To better understand why KV cache scheduling matters for LLM serving, I implemented a small simulator comparing two memory allocation strategies:
+
+1. **Contiguous pre-allocation**: each request reserves memory according to the maximum sequence length.
+2. **Paged allocation**: each request dynamically allocates fixed-size blocks according to its actual sequence length.
+
+In a simulated long-tail workload with 1,000 requests and a maximum sequence length of 4,096 tokens, contiguous allocation reserved 4,096,000 token slots but only used 396,344 of them, resulting in about 9.68% utilization. In contrast, paged allocation reserved 403,776 token slots with about 98.16% utilization.
+
+I also simulated shared-prefix reuse. With 1,000 requests sharing a 1,024-token prefix and each having a 128-token unique suffix, prefix reuse reduced reserved token slots from 1,152,000 to 129,024, saving about 88.8% of KV cache memory.
