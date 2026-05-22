@@ -128,3 +128,17 @@ See also:
 
 notebooks/cloud_experiment_plan.ipynb
 docs/autodl_gpu_deployment_checklist.md
+
+## RTX 4090 Cloud Experiment
+
+For real GPU benchmarking, use the RTX 4090 runbook:
+
+- [RTX 4090 Cloud Experiment Runbook](docs/4090_experiment_runbook.md)
+
+Main one-command scripts:
+
+```bash
+bash scripts/setup_4090_env.sh
+bash scripts/run_4090_vllm_experiment.sh
+bash scripts/run_4090_sglang_experiment.sh
+bash scripts/run_prefix_cache_ablation.sh
