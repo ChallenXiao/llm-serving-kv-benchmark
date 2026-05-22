@@ -69,3 +69,25 @@ To better understand why KV cache scheduling matters for LLM serving, I implemen
 In a simulated long-tail workload with 1,000 requests and a maximum sequence length of 4,096 tokens, contiguous allocation reserved 4,096,000 token slots but only used 396,344 of them, resulting in about 9.68% utilization. In contrast, paged allocation reserved 403,776 token slots with about 98.16% utilization.
 
 I also simulated shared-prefix reuse. With 1,000 requests sharing a 1,024-token prefix and each having a 128-token unique suffix, prefix reuse reduced reserved token slots from 1,152,000 to 129,024, saving about 88.8% of KV cache memory.
+
+## Key Figures
+
+### Local Benchmark Validation
+
+The following figures are generated from the local OpenAI-compatible mock server to validate the benchmarking pipeline before running GPU experiments.
+
+![Request Throughput vs Concurrency](docs/images/request_throughput_vs_concurrency.png)
+
+![P95 Latency vs Concurrency](docs/images/p95_latency_vs_concurrency.png)
+
+![P95 TTFT vs Concurrency](docs/images/p95_ttft_vs_concurrency.png)
+
+### KV Cache Allocator Simulation
+
+The following figures show why KV cache memory management is important for LLM serving.
+
+![KV Cache Allocator Utilization](docs/images/kv_allocator_utilization.png)
+
+![KV Cache Reserved Tokens](docs/images/kv_allocator_reserved_tokens.png)
+
+![Prefix Reuse Saving Ratio](docs/images/prefix_reuse_saving_ratio.png)
