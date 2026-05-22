@@ -91,3 +91,11 @@ The following figures show why KV cache memory management is important for LLM s
 ![KV Cache Reserved Tokens](docs/images/kv_allocator_reserved_tokens.png)
 
 ![Prefix Reuse Saving Ratio](docs/images/prefix_reuse_saving_ratio.png)
+
+## Cloud GPU Deployment
+
+Real vLLM and SGLang experiments are intended to be run on a rented NVIDIA GPU instance such as RTX 4090 / RTX 3090 / A10.
+
+See:
+
+- [AutoDL GPU Deployment Checklist](docs/autodl_gpu_deployment_checklist.md)
