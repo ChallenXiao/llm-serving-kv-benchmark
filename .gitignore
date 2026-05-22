@@ -25,3 +25,11 @@ hf_cache/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Cloud experiment outputs
+experiments/
+*.tar.gz
+
+# Cloud experiment outputs
+experiments/
+*.tar.gz

@@ -99,3 +99,32 @@ Real vLLM and SGLang experiments are intended to be run on a rented NVIDIA GPU i
 See:
 
 - [AutoDL GPU Deployment Checklist](docs/autodl_gpu_deployment_checklist.md)
+
+## One-Command Cloud Benchmark Sweep
+
+After launching a vLLM or SGLang server, the full benchmark sweep can be executed with one command.
+
+For vLLM:
+
+```bash
+ENGINE=vllm \
+BASE_URL=http://127.0.0.1:8000/v1 \
+MODEL=Qwen/Qwen2.5-7B-Instruct \
+bash scripts/run_cloud_sweep.sh
+```
+
+For SGLang:
+
+```bash
+ENGINE=sglang \
+BASE_URL=http://127.0.0.1:30000/v1 \
+MODEL=Qwen/Qwen2.5-7B-Instruct \
+bash scripts/run_cloud_sweep.sh
+```
+
+The script automatically runs short-prompt, long-prompt, and shared-prefix workloads across multiple concurrency levels, then saves raw JSONL results, summary CSV files, plots, logs, and a compressed experiment archive under experiments/.
+
+See also:
+
+notebooks/cloud_experiment_plan.ipynb
+docs/autodl_gpu_deployment_checklist.md
