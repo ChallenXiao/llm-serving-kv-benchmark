@@ -1,0 +1,13 @@
+
+========== Summary Table ==========
+engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+  mock          long            1              10                  0.813270                26.024648           1.247985    0.835495     0.012903
+  mock          long            2              10                  1.641388                52.524403           1.232481    0.836013     0.012622
+  mock shared_prefix            1              10                  0.825912                26.429189           1.237352    0.835323     0.012361
+  mock shared_prefix            2              10                  1.664797                53.273492           1.219733    0.826704     0.012190
+  mock         short            1              10                  1.916239                61.319641           0.559245    0.162060     0.012059
+  mock         short            2              10                  3.779471               120.943071           0.597217    0.167363     0.012175
+  mock         short            4              10                  6.326693               202.454188           0.540420    0.149049     0.012276
+
+Saved summary to: experiments/mock_20260522_171844/processed/summary.csv
+Saved plots to: experiments/mock_20260522_171844/plots

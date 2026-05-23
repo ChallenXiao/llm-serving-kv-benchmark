@@ -1,0 +1,19 @@
+completed 1/10 requestscompleted 2/10 requestscompleted 3/10 requestscompleted 4/10 requestscompleted 5/10 requestscompleted 6/10 requestscompleted 7/10 requestscompleted 8/10 requestscompleted 9/10 requestscompleted 10/10 requests
+
+========== Benchmark Summary ==========
+num_requests: 10
+num_successful: 10
+num_failed: 0
+total_duration_s: 2.591109
+request_throughput_req_s: 3.859352
+output_throughput_tok_s: 123.499261
+e2e_latency_p50_s: 0.518415
+e2e_latency_p95_s: 0.533009
+e2e_latency_p99_s: 0.533335
+ttft_p50_s: 0.144121
+ttft_p95_s: 0.155557
+ttft_p99_s: 0.158322
+tpot_mean_s: 0.011940
+approx_total_output_tokens: 320
+
+Saved raw results to: experiments/mock_20260522_171201/raw/mock_short_c2.jsonl
