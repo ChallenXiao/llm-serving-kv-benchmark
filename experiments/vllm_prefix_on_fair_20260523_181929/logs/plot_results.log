@@ -1,0 +1,24 @@
+
+========== Summary Table ==========
+             engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+vllm_prefix_on_fair          long            1              96                  0.686333                43.374842           1.454445    0.034414     0.022860
+vllm_prefix_on_fair          long            2              96                  0.968049                74.539786           2.069930    0.043705     0.026618
+vllm_prefix_on_fair          long            4              96                  1.902383               146.483492           2.104271    0.046270     0.027071
+vllm_prefix_on_fair          long            8              96                  3.846866               288.194407           2.180120    0.068370     0.026617
+vllm_prefix_on_fair          long           16              96                  7.327627               536.443372           2.333219    0.088376     0.028747
+vllm_prefix_on_fair          long           32              96                 13.870176               859.084002           2.374211    0.135163     0.027140
+vllm_prefix_on_fair shared_prefix            1              96                  0.378351                34.599440           2.650268    0.034508     0.029111
+vllm_prefix_on_fair shared_prefix            2              96                  0.750293                67.932755           2.673226    0.043235     0.029550
+vllm_prefix_on_fair shared_prefix            4              96                  1.475267               135.263502           2.718805    0.045200     0.029642
+vllm_prefix_on_fair shared_prefix            8              96                  2.857348               257.607787           2.814299    0.072873     0.031120
+vllm_prefix_on_fair shared_prefix           16              96                  5.341865               484.495984           3.006352    0.098193     0.032838
+vllm_prefix_on_fair shared_prefix           32              96                 10.276455               925.416147           3.126244    0.140134     0.033953
+vllm_prefix_on_fair         short            1              96                  0.372002                38.688173           2.635317    0.030138     0.025224
+vllm_prefix_on_fair         short            2              96                  0.754433                76.952206           2.654273    0.041594     0.025850
+vllm_prefix_on_fair         short            4              96                  1.495628               152.554026           2.681940    0.042577     0.026075
+vllm_prefix_on_fair         short            8              96                  2.914103               298.695561           2.755255    0.057558     0.026611
+vllm_prefix_on_fair         short           16              96                  5.577052               567.929829           2.883638    0.074839     0.027891
+vllm_prefix_on_fair         short           32              96                 10.843836              1086.981560           2.953455    0.094881     0.028822
+
+Saved summary to: experiments/vllm_prefix_on_fair_20260523_181929/processed/summary.csv
+Saved plots to: experiments/vllm_prefix_on_fair_20260523_181929/plots

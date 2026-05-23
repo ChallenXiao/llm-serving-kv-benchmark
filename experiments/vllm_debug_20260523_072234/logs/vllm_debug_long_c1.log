@@ -1,0 +1,19 @@
+completed 1/2 requestscompleted 2/2 requests
+
+========== Benchmark Summary ==========
+num_requests: 2
+num_successful: 2
+num_failed: 0
+total_duration_s: 3.045079
+request_throughput_req_s: 0.656797
+output_throughput_tok_s: 36.123857
+e2e_latency_p50_s: 1.522492
+e2e_latency_p95_s: 1.525187
+e2e_latency_p99_s: 1.525427
+ttft_p50_s: 0.247737
+ttft_p95_s: 0.250813
+ttft_p99_s: 0.251087
+tpot_mean_s: 0.023607
+approx_total_output_tokens: 110
+
+Saved raw results to: experiments/vllm_debug_20260523_072234/raw/vllm_debug_long_c1.jsonl

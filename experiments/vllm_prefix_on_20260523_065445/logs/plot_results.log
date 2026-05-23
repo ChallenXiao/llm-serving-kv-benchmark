@@ -1,0 +1,24 @@
+
+========== Summary Table ==========
+        engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+vllm_prefix_on          long            1               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on          long            2               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on          long            4               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on          long            8               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on          long           16               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on          long           32               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix            1               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix            2               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix            4               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix            8               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix           16               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on shared_prefix           32               0                  0.000000                 0.000000                NaN         NaN          NaN
+vllm_prefix_on         short            1              96                  0.772899                43.217943           1.327428    0.038239     0.022866
+vllm_prefix_on         short            2              96                  1.657659                79.705782           1.207635    0.044689     0.024648
+vllm_prefix_on         short            4              96                  3.188962               154.133171           1.251091    0.068285     0.025210
+vllm_prefix_on         short            8              96                  5.983127               297.660580           1.496003    0.097096     0.026088
+vllm_prefix_on         short           16              96                 10.525274               528.127531           1.622801    0.147724     0.027856
+vllm_prefix_on         short           32              96                 15.247440               774.284071           3.012049    1.563601     0.028062
+
+Saved summary to: experiments/vllm_prefix_on_20260523_065445/processed/summary.csv
+Saved plots to: experiments/vllm_prefix_on_20260523_065445/plots

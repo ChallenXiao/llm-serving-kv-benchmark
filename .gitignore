@@ -20,8 +20,9 @@ plots/*
 !plots/.gitkeep
 
 # Logs
+#只忽略根目录下的 logs
 *.log
-logs/
+/logs/
 
 # Hugging Face cache
 .cache/
@@ -31,12 +32,9 @@ hf_cache/
 .ipynb_checkpoints/
 
 # Server-side caches and logs
-server_logs/
-*.log
+#只忽略根目录下的
+/server_logs/
 
 
-
-
-# Cloud experiment outputs
-# experiments/
-#*.tar.gz
+!experiments/
+!experiments/**

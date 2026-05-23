@@ -1,0 +1,21 @@
+
+========== Summary Table ==========
+                      engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+vllm_kv_pressure_with_prefix          long            8             256                  2.722344               242.831001           9.474256    0.104704     0.026524
+vllm_kv_pressure_with_prefix          long           16             256                  4.505291               428.565795          10.896124    0.130596     0.029649
+vllm_kv_pressure_with_prefix          long           32             256                  3.891420               785.565184          27.894825    0.176833     0.030164
+vllm_kv_pressure_with_prefix          long           64             256                  7.395641               862.054416           8.465734    0.344098     0.035238
+vllm_kv_pressure_with_prefix          long          128             256                  7.370086               983.532232          31.140293    0.640639     0.048257
+vllm_kv_pressure_with_prefix shared_prefix            8             256                  0.523378               227.579509          23.549077    0.067622     0.033822
+vllm_kv_pressure_with_prefix shared_prefix           16             256                  0.917611               401.472703          26.132485    0.139035     0.037531
+vllm_kv_pressure_with_prefix shared_prefix           32             256                  1.270139               934.817022          28.157607    0.194559     0.034792
+vllm_kv_pressure_with_prefix shared_prefix           64             256                  2.059980               932.744262          44.838950    0.405207     0.058643
+vllm_kv_pressure_with_prefix shared_prefix          128             256                  3.122922              1368.584018          46.614090    0.826308     0.069399
+vllm_kv_pressure_with_prefix         short            8             256                  2.620309               267.271534           2.957192    0.056452     0.028625
+vllm_kv_pressure_with_prefix         short           16             256                  5.173934               527.741310           3.104703    0.071021     0.030053
+vllm_kv_pressure_with_prefix         short           32             256                  9.943455              1014.232372           3.231148    0.119291     0.030925
+vllm_kv_pressure_with_prefix         short           64             256                 17.709188              1812.009687           3.680762    0.162026     0.034024
+vllm_kv_pressure_with_prefix         short          128             256                 23.872652              2435.010458           5.394932    0.316041     0.050243
+
+Saved summary to: experiments/vllm_kv_pressure_with_prefix_20260523_214128/processed/summary.csv
+Saved plots to: experiments/vllm_kv_pressure_with_prefix_20260523_214128/plots

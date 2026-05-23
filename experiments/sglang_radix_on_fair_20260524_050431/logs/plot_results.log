@@ -1,0 +1,24 @@
+
+========== Summary Table ==========
+              engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+sglang_radix_on_fair          long            1              96                  0.549830                38.488106           1.817757    0.043109     0.025718
+sglang_radix_on_fair          long            2              96                  1.183422                78.303081           1.718631    0.043451     0.025243
+sglang_radix_on_fair          long            4              96                  2.456336               151.422871           1.806833    0.066662     0.025129
+sglang_radix_on_fair          long            8              96                  5.192306               289.416958           1.985109    0.085987     0.024952
+sglang_radix_on_fair          long           16              96                 11.345654               566.337233           1.950477    0.127710     0.024488
+sglang_radix_on_fair          long           32              96                 23.757648              1116.609452           1.368042    0.216123     0.024674
+sglang_radix_on_fair shared_prefix            1              96                  0.396632                37.155313           2.520688    0.043539     0.026794
+sglang_radix_on_fair shared_prefix            2              96                  0.795756                76.110747           2.515751    0.043579     0.026252
+sglang_radix_on_fair shared_prefix            4              96                  1.564066               147.950824           2.560074    0.064830     0.026787
+sglang_radix_on_fair shared_prefix            8              96                  3.064747               294.407227           2.629892    0.094740     0.026795
+sglang_radix_on_fair shared_prefix           16              96                  5.786620               550.150845           2.784773    0.133001     0.028209
+sglang_radix_on_fair shared_prefix           32              96                 10.814305              1038.398607           2.973672    0.210588     0.029092
+sglang_radix_on_fair         short            1              96                  0.388540                35.721407           2.498154    0.043203     0.026949
+sglang_radix_on_fair         short            2              96                  0.784873                72.159248           2.532163    0.060291     0.027194
+sglang_radix_on_fair         short            4              96                  1.592978               139.153288           2.543922    0.060351     0.027820
+sglang_radix_on_fair         short            8              96                  3.127958               271.154854           2.582129    0.076808     0.028311
+sglang_radix_on_fair         short           16              96                  6.184129               545.362892           2.658374    0.095420     0.027781
+sglang_radix_on_fair         short           32              96                 11.720666              1018.965391           2.742065    0.147916     0.029769
+
+Saved summary to: experiments/sglang_radix_on_fair_20260524_050431/processed/summary.csv
+Saved plots to: experiments/sglang_radix_on_fair_20260524_050431/plots

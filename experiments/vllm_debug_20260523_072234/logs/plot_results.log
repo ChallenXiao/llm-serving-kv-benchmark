@@ -1,0 +1,9 @@
+
+========== Summary Table ==========
+    engine      workload  concurrency  num_successful  request_throughput_req_s  output_throughput_tok_s  e2e_latency_p95_s  ttft_p95_s  tpot_mean_s
+vllm_debug          long            1               2                  0.656797                36.123857           1.525187    0.250813     0.023607
+vllm_debug shared_prefix            1               2                  0.655481                28.841149           1.527274    0.251836     0.029699
+vllm_debug         short            1               2                  0.359879                19.793356           4.039300    2.765730     0.023561
+
+Saved summary to: experiments/vllm_debug_20260523_072234/processed/summary.csv
+Saved plots to: experiments/vllm_debug_20260523_072234/plots

@@ -1,0 +1,19 @@
+completed 1/2 requestscompleted 2/2 requests
+
+========== Benchmark Summary ==========
+num_requests: 2
+num_successful: 2
+num_failed: 0
+total_duration_s: 1.905032
+request_throughput_req_s: 1.049851
+output_throughput_tok_s: 29.395839
+e2e_latency_p50_s: 0.952471
+e2e_latency_p95_s: 1.195091
+e2e_latency_p99_s: 1.216657
+ttft_p50_s: 0.315015
+ttft_p95_s: 0.557970
+ttft_p99_s: 0.579566
+tpot_mean_s: 0.023609
+approx_total_output_tokens: 56
+
+Saved raw results to: experiments/vllm_smoke_20260523_063710/raw/vllm_smoke_long_c1.jsonl
