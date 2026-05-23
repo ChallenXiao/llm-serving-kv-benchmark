@@ -142,3 +142,24 @@ bash scripts/setup_4090_env.sh
 bash scripts/run_4090_vllm_experiment.sh
 bash scripts/run_4090_sglang_experiment.sh
 bash scripts/run_prefix_cache_ablation.sh
+
+## RTX 3090 No-Docker Cloud Deployment Record
+
+A real cloud deployment was performed on an RTX 3090 24GB instance without Docker support. The deployment used pip/uv-based virtual environments, data-disk model cache migration, Hugging Face mirror configuration, and separate environments for vLLM and SGLang.
+
+Key engineering steps included:
+
+- SSH and GitHub key setup
+- cloud tool installation: `git`, `tmux`, `htop`, `nvtop`, `rsync`, `iproute2`
+- moving Hugging Face / pip / uv caches from the system disk to `/root/rivermind-data`
+- configuring `HF_ENDPOINT=https://hf-mirror.com` for faster Qwen model download
+- creating `.venv-gpu` for vLLM
+- fixing CUDA/vLLM compatibility by installing `vllm==0.10.2` with `cu128`
+- fixing Qwen tokenizer compatibility by pinning `transformers==4.56.1`
+- successfully launching Qwen2.5-7B-Instruct with vLLM on RTX 3090
+- running vLLM smoke tests and preliminary prefix-cache ON/OFF benchmark sweeps
+- preparing a separate `.venv-sglang` plan for future SGLang RadixAttention experiments
+
+Full record:
+
+- [RTX 3090 No-Docker Cloud Deployment Runbook](docs/3090_no_docker_cloud_runbook.md)

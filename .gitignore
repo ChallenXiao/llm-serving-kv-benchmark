@@ -5,6 +5,10 @@ __pycache__/
 .venv-gpu
 .env
 
+# Python virtual environments on cloud
+.venv-gpu/
+.venv-sglang/
+
 # macOS
 .DS_Store
 
@@ -26,6 +30,12 @@ hf_cache/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Server-side caches and logs
+server_logs/
+*.log
+
+
 
 
 # Cloud experiment outputs
