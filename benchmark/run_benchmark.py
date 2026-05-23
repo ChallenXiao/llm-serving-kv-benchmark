@@ -45,6 +45,14 @@ async def run_benchmark(args: argparse.Namespace) -> list[dict]:
         tasks = [asyncio.create_task(bounded_run(item)) for item in workload_items]
 
         completed = 0
+        total = len(tasks)
+        milestones = {
+            max(1, int(total * 0.25)): "25%",
+            max(1, int(total * 0.50)): "50%",
+            max(1, int(total * 0.75)): "75%",
+            total: "100%",
+        }
+
         for task in asyncio.as_completed(tasks):
             record = await task
 
@@ -64,7 +72,18 @@ async def run_benchmark(args: argparse.Namespace) -> list[dict]:
 
             records.append(record)
             completed += 1
-            print(f"completed {completed}/{len(tasks)} requests", end="\r")
+
+            if completed in milestones:
+                successful_so_far = sum(1 for r in records if r.get("error") is None)
+                failed_so_far = completed - successful_so_far
+                print(
+                    f"progress {milestones[completed]}: "
+                    f"{completed}/{total} completed, "
+                    f"success={successful_so_far}, failed={failed_so_far}",
+                    flush=True,
+                )
+            else:
+                print(f"completed {completed}/{total} requests", end="\r")
 
     print()
     return records
