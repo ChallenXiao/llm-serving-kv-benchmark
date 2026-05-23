@@ -163,3 +163,181 @@ Key engineering steps included:
 Full record:
 
 - [RTX 3090 No-Docker Cloud Deployment Runbook](docs/3090_no_docker_cloud_runbook.md)
+
+## Cloud Benchmark Results on RTX 3090
+
+Real serving experiments were conducted on an NVIDIA GeForce RTX 3090 24GB cloud instance without Docker support. The model used in all experiments was:
+
+```text
+Qwen/Qwen2.5-7B-Instruct
+```
+
+The serving engines were deployed with separate Python virtual environments:
+
+- `.venv-gpu` for vLLM
+- `.venv-sglang` for SGLang
+
+The benchmark client used OpenAI-compatible `/v1/chat/completions` streaming responses and measured:
+
+- request throughput
+- output token throughput
+- TTFT
+- TPOT
+- P95 / P99 end-to-end latency
+- per-request raw JSONL records
+
+### Fair Comparison Setup
+
+The fair comparison used the same concurrency sweep and request counts across workloads:
+
+```
+concurrency = 1 / 2 / 4 / 8 / 16 / 32
+NUM_REQUESTS_SHORT = 96
+NUM_REQUESTS_LONG = 96
+NUM_REQUESTS_SHARED = 96
+
+short input tokens = 256
+long input tokens = 1024
+shared prefix tokens = 1024
+
+max output tokens = 128
+max model length = 4096
+```
+
+The four fair-comparison runs were:
+
+```
+vllm_prefix_on_fair
+vllm_prefix_off_fair
+sglang_radix_on_fair
+sglang_radix_off_fair
+```
+
+---
+
+## vLLM Prefix Cache Fair Comparison
+
+At concurrency 32, vLLM prefix caching significantly improved throughput and TTFT.
+
+|Workload|Prefix Cache|Request Throughput|Output Throughput|P95 E2E Latency|P95 TTFT|
+|---|---|---|---|---|---|
+|long|ON|13.87 req/s|859.08 tok/s|2.37s|0.14s|
+|long|OFF|3.60 req/s|282.47 tok/s|13.94s|6.40s|
+|shared_prefix|ON|10.28 req/s|925.42 tok/s|3.13s|0.14s|
+|shared_prefix|OFF|3.29 req/s|297.60 tok/s|13.09s|6.54s|
+|short|ON|10.84 req/s|1086.98 tok/s|2.95s|0.09s|
+|short|OFF|6.99 req/s|706.68 tok/s|4.59s|1.65s|
+
+Key observations:
+
+- For the long workload at concurrency 32, prefix caching improved request throughput from **3.60 req/s to 13.87 req/s**, about **3.85x higher**.
+- For the long workload at concurrency 32, P95 TTFT decreased from **6.40s to 0.14s**, about **47x lower**.
+- For the shared-prefix workload at concurrency 32, P95 TTFT decreased from **6.54s to 0.14s**, showing the benefit of prefix-aware KV cache reuse.
+- Prefix cache OFF shows clear queueing and repeated prefill overhead as concurrency increases.
+
+---
+
+## SGLang RadixAttention Fair Comparison
+
+At concurrency 32, SGLang RadixAttention also showed strong improvements over radix cache disabled.
+
+|Workload|Radix Cache|Request Throughput|Output Throughput|P95 E2E Latency|P95 TTFT|
+|---|---|---|---|---|---|
+|long|ON|23.76 req/s|1116.61 tok/s|1.37s|0.22s|
+|long|OFF|3.85 req/s|194.96 tok/s|8.65s|6.39s|
+|shared_prefix|ON|10.81 req/s|1038.40 tok/s|2.97s|0.21s|
+|shared_prefix|OFF|3.25 req/s|305.51 tok/s|9.90s|6.78s|
+|short|ON|11.72 req/s|1018.97 tok/s|2.74s|0.15s|
+|short|OFF|7.07 req/s|640.88 tok/s|5.19s|1.72s|
+
+Key observations:
+
+- For the long workload at concurrency 32, RadixAttention improved request throughput from **3.85 req/s to 23.76 req/s**, about **6.17x higher**.
+- For the long workload at concurrency 32, P95 TTFT decreased from **6.39s to 0.22s**, about **30x lower**.
+- For the shared-prefix workload at concurrency 32, P95 TTFT decreased from **6.78s to 0.21s**, confirming that prefix reuse is highly beneficial for repeated prompt structures.
+- Radix cache OFF shows the same degradation pattern as vLLM prefix cache OFF: TTFT and P95 latency increase rapidly at high concurrency.
+
+---
+
+## vLLM vs SGLang High-Level Comparison
+
+Under the same fair-comparison workload and concurrency sweep:
+
+|Engine|Cache Mode|Strongest Observed Behavior|
+|---|---|---|
+|vLLM|Prefix cache ON|Stable low TTFT and strong throughput under shared-prefix and long-prompt workloads|
+|vLLM|Prefix cache OFF|TTFT grows significantly at high concurrency due to repeated prefill|
+|SGLang|Radix cache ON|Very strong long-workload throughput and low high-concurrency TTFT|
+|SGLang|Radix cache OFF|High-concurrency TTFT and P95 latency degrade sharply|
+
+The comparison suggests that both vLLM prefix caching and SGLang RadixAttention are highly effective under workloads with repeated prompt structures. The absolute numbers should be interpreted as system-specific results on one RTX 3090 cloud instance, while the main conclusion is the consistent trend: **prefix-aware KV cache reuse reduces redundant prefill and improves high-concurrency serving behavior**.
+
+---
+
+## KV Pressure Experiment
+
+A separate vLLM pressure test was run to stress long-context and high-concurrency serving.
+
+Pressure setup:
+
+```
+concurrency = 8 / 16 / 32 / 64 / 128
+NUM_REQUESTS = 256 for each workload
+
+short input tokens = 512
+long input tokens = 3072
+shared prefix tokens = 3072
+
+max output tokens = 1024
+timeout = 600s
+```
+
+This workload was intentionally much heavier than the fair comparison.
+
+Key observations:
+
+- Under high concurrency and long context, P95 latency can increase dramatically.
+- For `vllm_kv_pressure`, long workload P95 TTFT reached **97.73s** at concurrency 128, showing severe queueing and KV/prefill pressure.
+- With prefix-aware reuse in `vllm_kv_pressure_with_prefix`, TTFT remained much lower. For long workload at concurrency 128, P95 TTFT was **0.64s**, while request throughput reached **7.37 req/s**.
+- For short workload under pressure with prefix reuse, throughput continued to scale up to **23.87 req/s** and **2435 tok/s** at concurrency 128.
+
+This pressure experiment is not used as the main fair comparison. Instead, it demonstrates the serving boundary: long prompts, high concurrency, and long outputs can quickly create queueing and latency spikes, while prefix-aware caching can significantly reduce repeated prefill overhead.
+
+---
+
+## Engineering Notes
+
+During cloud deployment, several engineering issues were resolved:
+
+1. The cloud image did not provide Docker, so vLLM and SGLang were deployed through pip/uv virtual environments.
+2. The first vLLM installation selected a CUDA 13-dependent wheel and failed with `libcudart.so.13` missing. This was fixed by installing `vllm==0.10.2` with CUDA 12.8 backend.
+3. Qwen2 tokenizer compatibility required pinning `transformers==4.56.1`.
+4. Hugging Face, pip, and uv caches were moved from the system disk to `/root/rivermind-data` to avoid filling the system disk.
+5. The workload generator was revised to avoid artificial underscore-number strings that caused tokenizer length explosion.
+6. Benchmark progress milestones were added to show 25%, 50%, 75%, and 100% completion during long-running experiments.
+
+---
+
+## Current Experiment Artifacts
+
+Main result directories:
+
+```
+experiments/vllm_prefix_on_fair_20260523_181929/
+experiments/vllm_prefix_off_fair_20260523_184540/
+experiments/sglang_radix_on_fair_20260524_050431/
+experiments/sglang_radix_off_fair_20260524_053432/
+experiments/vllm_kv_pressure_20260523_201508/
+experiments/vllm_kv_pressure_with_prefix_20260523_214128/
+```
+
+Each experiment contains:
+
+```
+raw/*.jsonl
+processed/summary.csv
+plots/*.png
+logs/
+run_config.txt
+```
+
