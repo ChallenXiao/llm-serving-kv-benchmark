@@ -14,21 +14,48 @@ class WorkloadItem:
     max_tokens: int
 
 
+COMMON_WORDS = [
+    "market",
+    "growth",
+    "revenue",
+    "margin",
+    "risk",
+    "capital",
+    "cash",
+    "demand",
+    "supply",
+    "customer",
+    "product",
+    "strategy",
+    "operation",
+    "cost",
+    "profit",
+    "analysis",
+    "forecast",
+    "industry",
+    "segment",
+    "value",
+]
+
+
 def make_repeated_text(topic: str, target_words: int) -> str:
     """
-    Roughly generate text with a controllable length.
-    This is not exact tokenization, but enough for local benchmark logic.
+    Generate tokenizer-friendly text.
+
+    Avoid artificial strings such as long_context_123 because BPE tokenizers may
+    split them into many tokens. Repeating normal English words gives a more
+    stable approximation of prompt length.
     """
     words = []
-    for i in range(target_words):
-        words.append(f"{topic}_{i}")
-    return " ".join(words)
+    for i in range(max(1, target_words)):
+        words.append(COMMON_WORDS[i % len(COMMON_WORDS)])
+    return f"{topic}: " + " ".join(words)
 
 
 def build_short_prompt(request_id: int, input_tokens: int, max_tokens: int) -> WorkloadItem:
     user_text = (
         "Summarize the following short business note and give one recommendation. "
-        + make_repeated_text("short_context", max(8, input_tokens - 20))
+        + make_repeated_text("short business context", max(8, input_tokens - 20))
     )
 
     return WorkloadItem(
@@ -44,7 +71,7 @@ def build_short_prompt(request_id: int, input_tokens: int, max_tokens: int) -> W
 def build_long_prompt(request_id: int, input_tokens: int, max_tokens: int) -> WorkloadItem:
     user_text = (
         "Read the following long document and extract key risks, opportunities, and conclusions. "
-        + make_repeated_text("long_context", max(32, input_tokens - 20))
+        + make_repeated_text("long business document", max(32, input_tokens - 20))
     )
 
     return WorkloadItem(
@@ -66,7 +93,7 @@ def build_shared_prefix_prompt(
         "You are a rigorous financial analysis assistant. "
         "You must analyze revenue growth, margin quality, capital structure, risk factors, "
         "and valuation implications carefully. "
-        + make_repeated_text("shared_financial_policy", max(64, shared_prefix_tokens))
+        + make_repeated_text("shared financial policy", max(64, shared_prefix_tokens))
     )
 
     user_questions = [

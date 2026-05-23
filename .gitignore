@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 .venv/
+.venv-gpu
 .env
 
 # macOS
@@ -26,10 +27,7 @@ hf_cache/
 # Jupyter
 .ipynb_checkpoints/
 
-# Cloud experiment outputs
-experiments/
-*.tar.gz
 
 # Cloud experiment outputs
-experiments/
-*.tar.gz
+# experiments/
+#*.tar.gz

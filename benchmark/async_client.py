@@ -43,7 +43,12 @@ async def run_one_request(
 
     try:
         async with client.stream("POST", url, json=payload) as response:
-            response.raise_for_status()
+            if response.status_code >= 400:
+                body = await response.aread()
+                error_body = body.decode("utf-8", errors="replace")
+                raise RuntimeError(
+                    f"HTTP {response.status_code}: {error_body[:1500]}"
+                )
 
             async for line in response.aiter_lines():
                 if not line:
